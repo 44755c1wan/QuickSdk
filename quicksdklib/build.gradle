@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+android {
+    useLibrary'org.apache.http.legacy'
+
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies.fragment
+    implementation rootProject.ext.dependencies.httpclient
+
+    implementation files('libs/okhttp-3.6.0.jar')
+    implementation files('libs/okio-1.11.0.jar')
+    api files('libs/huawei-pps -channel-sdk.jar')
+    api files('libs/qitian_datasdk_v2.6.0.jar')
+    api files('libs/quicksdk_v2.7.0_20200115.jar')
+}
