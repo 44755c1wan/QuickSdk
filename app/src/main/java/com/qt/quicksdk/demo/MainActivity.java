@@ -3,16 +3,13 @@ package com.qt.quicksdk.demo;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
@@ -36,20 +33,17 @@ import java.util.UUID;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    private Button btnLogin, btnPay, btnLogout, btnFinish, btnUloadUserInfo;
     private TextView infoTv;
     public static GameRoleInfo roleInfo;
     public static OrderInfo orderInfo;
-    private Context mContext;
     boolean isLandscape = false;
-//    private String channelInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getApplicationContext();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(getResId("activity_main", "layout"));
+        setContentView(R.layout.activity_main);
+        infoTv = (TextView) findViewById(R.id.tv_userInfo);
 
 //		获取转化跟踪参数，需要使用子线程获取  11111111111111111111111111111    
         new Thread(new Runnable() {
@@ -58,7 +52,6 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         }).start();
 
-        initView();
 
         // 设置横竖屏，游戏横屏为true，游戏竖屏为false(必接)
         QuickSDK.getInstance().setIsLandScape(isLandscape);
@@ -105,86 +98,30 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onStart(this);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onRestart(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onPause(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onResume(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onStop(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onDestroy(this);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onNewIntent(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 生命周期接口调用(必接)
-        com.quicksdk.Sdk.getInstance().onActivityResult(this, requestCode, resultCode, data);
-    }
-
     public void onClick(View v) {
         int id = v.getId();
         // 登录
-        if (id == getResId("btn_login", "id")) {
+        if (id == R.id.btn_login) {
             com.quicksdk.User.getInstance().login(MainActivity.this);
         }
 
         // 提交角色信息
-        if (id == getResId("btn_uploadUserInfo", "id")) {
+        if (id == R.id.btn_uploadUserInfo) {
             setUserInfo();
         }
 
         // 注销
-        if (id == getResId("btn_logout", "id")) {
+        if (id == R.id.btn_logout) {
             com.quicksdk.User.getInstance().logout(MainActivity.this);
         }
 
         // 支付
-        if (id == getResId("btn_pay", "id")) {
+        if (id == R.id.btn_pay) {
             pay();
         }
 
         // 退出
-        if (id == getResId("btn_finish", "id")) {
+        if (id == R.id.btn_finish) {
             exit();
         }
     }
@@ -269,35 +206,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 roleInfo.getRoleCreateTime());///111111111111111111111111111
         System.out.println("角色:" + roleInfo.getServerName());
 
-    }
-
-    /**
-     * 初始化界面元素变量及设置点击监听
-     */
-    private void initView() {
-        btnLogin = (Button) findViewById(getResId("btn_login", "id"));
-        btnLogin.setOnClickListener(this);
-
-        btnPay = (Button) findViewById(getResId("btn_pay", "id"));
-        btnPay.setOnClickListener(this);
-
-        btnLogout = (Button) findViewById(getResId("btn_logout", "id"));
-        btnLogout.setOnClickListener(this);
-
-        btnFinish = (Button) findViewById(getResId("btn_finish", "id"));
-        btnFinish.setOnClickListener(this);
-
-        btnUloadUserInfo = (Button) findViewById(getResId("btn_uploadUserInfo", "id"));
-        btnUloadUserInfo.setOnClickListener(this);
-
-        infoTv = (TextView) findViewById(getResId("tv_userInfo", "id"));
-    }
-
-    /**
-     * 返回资源id
-     */
-    public int getResId(String name, String defType) {
-        return mContext.getResources().getIdentifier(name, defType, mContext.getPackageName());
     }
 
     /**

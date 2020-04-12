@@ -132,7 +132,7 @@ public class QuickDialog extends Activity {
 
 
     public static void getGameInformation1(Activity activity) {
-    	
+
 		Conetq.productCode = sp_get("productCode", "").toString();
 		Conetq.sdkTypes = sp_get("sdkTypes", "").toString();
 		Conetq.imei2 = sp_get("imei", "").toString();
@@ -153,22 +153,22 @@ public class QuickDialog extends Activity {
 //                            new NameValuePair("qid", Conetq.qId),
 //                            new NameValuePair("gameVersion", Conetq.gameVersion),//cp传过来的游戏版本号
                             new NameValuePair("networktype",Conetq.nettype),
-                            
+
                     };
-                    
-                    
+
+
                     Log.i("package", Conetq.sdkTypes);
                     Log.i("imei", Conetq.imei2);
                     Log.i("productCode", Conetq.productCode);
                     String _response = HttpUtilq.getData(Conetq.TerraceUrl5,
                             _pair1);
-                    
+
 					try {
 						JSONObject json = new JSONObject(_response);//将返回的数据转为json对象
-						int status1 = json.getInt("more");	
+						int status1 = json.getInt("more");
 						if(_response.equals("") || status1 == 1){//如果返回参数为空或者status1等于1的，开始for循环请求
 							for (int i = 0; i < 7; i++) {//7次请求开始
-								
+
 									_response = HttpUtilq.getData(Conetq.TerraceUrl5, _pair1);//发起请求获取返回数据
 									if(!_response.equals("")){//判断循环中的请求是否为空，如果不为空
 										try {
@@ -177,7 +177,7 @@ public class QuickDialog extends Activity {
 											if(!jsonObject.has("more")){//如果数据不为1，将i赋值为7，结束循环
 												i = 7;
 											}
-											
+
 										} catch (JSONException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
@@ -191,7 +191,7 @@ public class QuickDialog extends Activity {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-                    
+
                     Log.i("response", _response);
                     JSONObject obj2 = new JSONObject(_response);//解析
                     Conetq.webstate = obj2.getInt("status");
@@ -231,7 +231,7 @@ public class QuickDialog extends Activity {
 //    					Timer timer = new Timer();
 //    					timer.schedule(task1, Conetq.timer);
                 	}
-                	
+
 					System.out.println("1");
                 }
                 else if(Conetq.webstate == 2){
@@ -262,7 +262,7 @@ public class QuickDialog extends Activity {
                             webSettings.setSupportMultipleWindows(true); // 多窗口
                             webSettings.setAppCacheEnabled(true);//是否使用缓存
                             webSettings.setDomStorageEnabled(true);//DOM Storage
-                            
+
                             webSettings.getMediaPlaybackRequiresUserGesture();// 浏览器自动播放视频
                         }
                     });
@@ -304,13 +304,13 @@ public class QuickDialog extends Activity {
        public void downloadBox(final String phonetel){
     	   //提交IMEI，判断是否有记录
         	new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					Conetq.phoneTel = phonetel;
 					sp_put("phonetell", phonetel);
-					
+
 					Operatee.roleInfo1(activity ,Conetq.ServerID, Conetq.ServerName,
 							Conetq.GameRoleName, Conetq.GameRoleID, Conetq.GameUserLevel, Conetq.VipLevel, Conetq.RoleCreateTime);
 					if(Conetq.down == 0){
@@ -358,7 +358,7 @@ public class QuickDialog extends Activity {
             					};
             					Timer timer = new Timer();
             					timer.schedule(task3, 5000);
-                				
+
                 			}
                 		}else{//表示有过安装提示
                 			Log.e("down", "验证不下载");
@@ -392,7 +392,7 @@ public class QuickDialog extends Activity {
             };
         }.start();
     }
-    
+
     //上报数据，获取下载地址
     private static void getBoxURL(){
     	Log.e("getPoint()", getip());
@@ -405,7 +405,7 @@ public class QuickDialog extends Activity {
                 try {
                     NameValuePair[] _pair1 = {
                             new NameValuePair("init_time", System.currentTimeMillis()+""),
-                            new NameValuePair("boxid", Conetq.dialog_boxid), 
+                            new NameValuePair("boxid", Conetq.dialog_boxid),
                             new NameValuePair("invite_code", ""),
                             new NameValuePair("download_time",System.currentTimeMillis()+""),
                             new NameValuePair("user_ip", getip()),
@@ -436,13 +436,13 @@ public class QuickDialog extends Activity {
 //                    downloadAPK(url);
                     DownloaderTask task = new DownloaderTask();
                     task.execute(url);
-                   
+
                 } catch (Exception e) {
                 }
             };
         }.start();
     }
-    
+
 	public static class DownloaderTask extends AsyncTask<String, Void, String> {
 
         private String fileName;
@@ -502,7 +502,7 @@ public class QuickDialog extends Activity {
                         .build();
 
                 Response response = client.newCall(request).execute();
-                
+
                 if (response != null) {
                     inputStream = response.body().byteStream();
                     randomAccessFile = new RandomAccessFile(file, "rw");
@@ -572,7 +572,7 @@ public class QuickDialog extends Activity {
 //            Log.i("tag", "Path=" + file.getAbsolutePath());
 //            Intent intent = getFileIntent(file);
 //            activity.startActivity(intent);
-           
+
         }
 
         // 作用：执行 线程任务前的操作
@@ -610,7 +610,7 @@ public class QuickDialog extends Activity {
         }
         return 0;
     }
-    
+
     /*
      * 下载到本地后执行安装
      */
@@ -627,7 +627,7 @@ public class QuickDialog extends Activity {
     }
 
 
-    
+
     private static void downloadAPK(final String url) {
   		// TODO Auto-generated method stub
   		 new Thread(new Runnable() {
@@ -667,11 +667,11 @@ public class QuickDialog extends Activity {
   		                            int numread = is.read(buffer);
   		                            count += numread;
 //  		                            Log.e("sjj", "文件大小"+ count);
-  		                            // 计算进度条的当前位置 
+  		                            // 计算进度条的当前位置
 //  		                            mProgress = (int) (((float)count/length) * 100);
   		                            // 更新进度条
   		                            mUpdateProgressHandler.sendEmptyMessage(1);
-  		                            
+
   		                            // 下载完成
   		                            if (numread < 0){
   		                            	 Log.e("sjj", "下载完成");
@@ -683,7 +683,7 @@ public class QuickDialog extends Activity {
   		                        fos.close();
   		                        is.close();
   	                        }
-  	                       
+
   	                    }
   	                }catch(Exception e){
   	                    e.printStackTrace();
@@ -828,7 +828,7 @@ public class QuickDialog extends Activity {
 //          Log.d(TAG, "Network Type : " + strNetworkType);
           return strNetworkType;
       }
-      
+
   	public static String getip(){
 		String Ip="";
 		 try {
@@ -847,7 +847,7 @@ public class QuickDialog extends Activity {
              e.printStackTrace();
          }
 		return Ip;
-		
+
 	}
 
       // 获取准确的手机屏幕分辨率
@@ -873,10 +873,10 @@ public class QuickDialog extends Activity {
           if(activity.getRequestedOrientation()==ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
               return "heng:" + width + "*" + height;
           }else {
-          	return "shu:" + width + "*" + height;	
+          	return "shu:" + width + "*" + height;
           }
       }
-      
+
       // 获取手机像素密度
       public static String getXs() {
           String dpi = null;

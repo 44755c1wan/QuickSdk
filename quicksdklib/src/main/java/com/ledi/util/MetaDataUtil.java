@@ -19,12 +19,10 @@ public class MetaDataUtil {
 				value = applicationInfo.metaData.get(name);
 			}
 		} catch (NameNotFoundException e) {
-			throw new RuntimeException(
-					"Could not read the name in the manifest file.", e);
+			e.printStackTrace();
 		}
 		if (value == null) {
-			throw new RuntimeException("The name '" + name
-					+ "' is not defined in the manifest file's meta data.");
+			value = "";
 		}
 		return value.toString();
 	}

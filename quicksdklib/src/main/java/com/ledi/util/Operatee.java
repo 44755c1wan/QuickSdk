@@ -306,7 +306,7 @@ public class Operatee {
     public static void getChannelInfo(Context context){
     	String huaweippsflag = MetaDataUtil.getMetaDataValue("huaweippsflag", context);
     	Log.i("sjj","奇天乐地"+ huaweippsflag);
-    	if(huaweippsflag.equals("false")){
+    	if("false".equals(huaweippsflag)){
     		huaweiflag = false;
     	}else{
     		huaweiflag = true;
