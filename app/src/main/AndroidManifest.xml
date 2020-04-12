@@ -5,11 +5,11 @@
     <application
         android:name=".GameApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
             android:name=".SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -20,19 +20,18 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
         <meta-data
             android:name="notch.config"
-            android:value="landscape" />
+            android:value="portrait" />
         <!-- 上线时需要改成true，测试时为false -->
         <meta-data
             android:name="huaweippsflag"
-            android:value="true" />
+            android:value="false" />
         <meta-data
             android:name="Dialog_boxid"
             android:value="A46DA88F66B58AC9" />

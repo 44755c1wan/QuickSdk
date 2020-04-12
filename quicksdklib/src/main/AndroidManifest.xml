@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.qt.quicksdk.quicksdklib">
 
     <!--//允许程序获取任务信息-->
@@ -22,16 +23,12 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <application>
+    <application
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
         <activity
             android:name="com.ledi.sdk.SdkWeb"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:label="@string/app_name"
             android:screenOrientation="sensor"
             android:theme="@android:style/Theme.Translucent">
             <intent-filter>
@@ -43,8 +40,7 @@
         <activity
             android:name="com.ledi.activity_393.QuickDialog"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -56,18 +52,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1" />
-        <meta-data
-            android:name="notch.config"
-            android:value="landscape" />
-        <!-- 上线时需要改成true，测试时为false -->
-        <meta-data
-            android:name="huaweippsflag"
-            android:value="true" />
-        <meta-data
-            android:name="Dialog_boxid"
-            android:value="A46DA88F66B58AC9" />
     </application>
 </manifest>

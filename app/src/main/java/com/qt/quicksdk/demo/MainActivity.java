@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +15,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.ledi.activity_393.QuickDialog;
 import com.ledi.util.Operatee;
-import com.qt.quicksdk.quicksdklib.permission.Action;
-import com.qt.quicksdk.quicksdklib.permission.AndPermission;
 import com.quicksdk.QuickSDK;
 import com.quicksdk.Sdk;
 import com.quicksdk.entity.GameRoleInfo;
@@ -30,7 +32,6 @@ import com.quicksdk.notifier.LogoutNotifier;
 import com.quicksdk.notifier.PayNotifier;
 import com.quicksdk.notifier.SwitchAccountNotifier;
 
-import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -53,7 +54,7 @@ public class MainActivity extends Activity implements OnClickListener {
 //		获取转化跟踪参数，需要使用子线程获取  11111111111111111111111111111    
         new Thread(new Runnable() {
             public void run() {
-                Operatee.getChannelInfo(getApplicationContext());//在这里我传入的当前的上下文  MainActivity.this   //1111111111111111111111
+                Operatee.getChannelInfo(getApplicationContext());//在这里我传入的当前的上下文  BaseQuickLifecycleActivity.this   //1111111111111111111111
             }
         }).start();
 
@@ -62,28 +63,46 @@ public class MainActivity extends Activity implements OnClickListener {
         // 设置横竖屏，游戏横屏为true，游戏竖屏为false(必接)
         QuickSDK.getInstance().setIsLandScape(isLandscape);
 
-        AndPermission.with(this).runtime().permission(new String[]{Manifest.permission.READ_PHONE_STATE
-                , Manifest.permission.WRITE_EXTERNAL_STORAGE,}).onGranted(new Action<List<String>>() {
-            @Override
-            public void onAction(List<String> data) {
-                // 有 则执行初始化
-                // 设置通知，用于监听初始化，登录，注销，支付及退出功能的返回值(必接)
-                initQkNotifiers();
-                // 请将下面语句中的第二与第三个参数，替换成QuickSDK后台申请的productCode和productKey值，目前的值仅作为示例
-                Sdk.getInstance().init(MainActivity.this, "24620274650134332748862293180252", "72585222");
+        try {
+
+            //check权限
+            if ((ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                    || (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                //没有 ，  申请权限  权限数组
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            } else {
+                intiQuick();
             }
-        }).onGranted(new Action<List<String>>() {
-            @Override
-            public void onAction(List<String> data) {
-                //失败  这里逻辑以游戏为准 这里只是模拟申请失败 退出游戏    cp方可改为继续申请 或者其他逻辑
-                System.exit(0);
-                finish();
-            }
-        });
+        } catch (Exception e) {
+            //异常  继续申请
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
 
         // 生命周期接口调用(必接)
-
         com.quicksdk.Sdk.getInstance().onCreate(this);
+    }
+
+    private void intiQuick() {
+        // 有 则执行初始化
+        // 设置通知，用于监听初始化，登录，注销，支付及退出功能的返回值(必接)
+        initQkNotifiers();
+        // 请将下面语句中的第二与第三个参数，替换成QuickSDK后台申请的productCode和productKey值，目前的值仅作为示例
+        Sdk.getInstance().init(MainActivity.this, "24620274650134332748862293180252", "72585222");
+
+    }
+
+    //申请权限的回调（结果）这是一个类似生命周期的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //申请成功
+            intiQuick();
+        } else {
+            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 cp方可改为继续申请权限 或者退出游戏 或者其他逻辑
+            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 退出游戏    cp方可改为继续申请 或者其他逻辑
+            System.exit(0);
+            finish();
+        }
     }
 
     @Override
