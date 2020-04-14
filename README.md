@@ -12,4 +12,3 @@
 	dependencies {
 	    implementation 'com.github.44755c1wan:QuickSdk:1.1'
     }
-# gradle引入方法
