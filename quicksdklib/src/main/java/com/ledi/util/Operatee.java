@@ -1,10 +1,6 @@
 package com.ledi.util;
 
 
-import org.apache.commons.httpclient.NameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -14,6 +10,10 @@ import android.util.Log;
 
 import com.huawei.hms.pps.AdChannelInfoClient;
 import com.ledi.floatwindow.net.HttpUtilq;
+
+import org.apache.commons.httpclient.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class Operatee {

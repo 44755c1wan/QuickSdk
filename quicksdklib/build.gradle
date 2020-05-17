@@ -24,27 +24,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/okhttp-3.6.0.jar')
-    implementation files('libs/okio-1.11.0.jar')
     api files('libs/huawei-pps -channel-sdk.jar')
     api files('libs/quicksdk_v2.7.0_20200115.jar')
     implementation files('libs/commons-httpclient-3.0.1.jar')
     implementation files('libs/android-support-v4.jar')
 }
-
-
-def zipFile = file('build/intermediates/packaged-classes/release/classes.jar'); //待打包文件位置
-
-task makeJar(type: Jar) {
-    destinationDir = file('build')//指定新jar包存放目录
-    archivesBaseName = "sdk_1.3.2"//指定新jar包名字
-    from zipTree(zipFile)
-//    from file('build/classes/java/main')//你写的代码的来源，编译后能找到你代码的路径。因人而异，有可能是 from('build/intermediates/bundles/release/classes.jar')
-    //第三方库的jar包存放位置
-//    from(project.zipTree("libs/okhttp-3.6.0.jar"))
-//    from(project.zipTree("libs/okio-1.11.0.jar"))
-//    from(project.zipTree("libs/huawei-pps -channel-sdk.jar"))
-    from(project.zipTree("libs/quicksdk_v2.7.0_20200115.jar"))
-//    from(project.zipTree("libs/commons-httpclient-3.0.1.jar"))
-//    from(project.zipTree("libs/android-support-v4.jar"))
-}
-makeJar.dependsOn(build)

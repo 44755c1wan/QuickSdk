@@ -90,10 +90,11 @@ public class MainActivity extends Activity implements OnClickListener {
             //申请成功
             intiQuick();
         } else {
-            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 cp方可改为继续申请权限 或者退出游戏 或者其他逻辑
-            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 退出游戏    cp方可改为继续申请 或者其他逻辑
-            System.exit(0);
-            finish();
+            intiQuick();
+//            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 cp方可改为继续申请权限 或者退出游戏 或者其他逻辑
+//            //失败  这里逻辑以游戏为准 这里只是模拟申请失败 退出游戏    cp方可改为继续申请 或者其他逻辑
+//            System.exit(0);
+//            finish();
         }
     }
 

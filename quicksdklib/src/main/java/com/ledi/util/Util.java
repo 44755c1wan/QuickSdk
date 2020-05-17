@@ -1075,9 +1075,9 @@ public class Util {
         if (TextUtils.isEmpty(Conet.phonenumber)) {
             TelephonyManager telephonyManager = (TelephonyManager) context
                     .getSystemService(Context.TELEPHONY_SERVICE);
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(context, "android.permission.READ_PHONE_NUMBERS") == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(context, "android.permission.READ_PHONE_STATE") == PackageManager.PERMISSION_GRANTED) {
                 Conet.phonenumber = telephonyManager.getLine1Number();
             }
             if (!TextUtils.isEmpty(Conet.phonenumber)) {
@@ -1087,12 +1087,6 @@ public class Util {
             }
         }
         return Conet.phonenumber;
-    }
-
-    // 获取手机运营商
-    public static String getProvidersName(Context context) {
-
-        return null;
     }
 
     public static String getid(Context contexts) {
