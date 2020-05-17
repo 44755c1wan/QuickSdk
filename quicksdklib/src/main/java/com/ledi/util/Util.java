@@ -50,8 +50,8 @@ import android.widget.Toast;
 import com.ledi.bean.User;
 import com.ledi.biz.FatherBiz;
 import com.ledi.biz.UserDao;
-import com.ledi.permission.checker.DoubleChecker;
-import com.ledi.permission.runtime.Permission;
+import com.permission.checker.DoubleChecker;
+import com.permission.runtime.Permission;
 
 import org.apache.http.conn.util.InetAddressUtils;
 import org.json.JSONException;
