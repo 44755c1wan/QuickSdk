@@ -1,6 +1,6 @@
 package com.ledi.util;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -50,6 +50,8 @@ import android.widget.Toast;
 import com.ledi.bean.User;
 import com.ledi.biz.FatherBiz;
 import com.ledi.biz.UserDao;
+import com.ledi.permission.checker.DoubleChecker;
+import com.ledi.permission.runtime.Permission;
 
 import org.apache.http.conn.util.InetAddressUtils;
 import org.json.JSONException;
@@ -80,6 +82,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Util {
+    public static final DoubleChecker STRICT_CHECKER = new DoubleChecker();
     // 一键注册截图用
     static SimpleDateFormat df = new SimpleDateFormat("hh_mm_ss");// 日期格式
     static Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
@@ -431,19 +434,22 @@ public class Util {
     /**
      * 获取手机串号--登录界面出现的时候
      */
+    @SuppressLint("MissingPermission")
     public static String getImei(Context context) {
-        if (!TextUtils.isEmpty(Conet.imei)) {
-            return Conet.imei;
+        String imei = null;
+        if (Util.STRICT_CHECKER.hasPermission(context, Permission.READ_PHONE_STATE)) {
+            TelephonyManager telephonyManager = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            if (null != telephonyManager) {
+                imei = telephonyManager.getDeviceId();
+            }
         }
-
-        TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            Conet.imei = tm.getDeviceId();
-            return Conet.imei;
+        if (TextUtils.isEmpty(imei)) {
+            imei = getMyDeviceId();
         }
-
-
+        return imei;
+    }
+    private static String getMyDeviceId() {
         String serial;
         String m_szDevIDShort = "35" +
                 Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
@@ -468,9 +474,7 @@ public class Util {
             //serial需要一个初始化
             serial = "serial"; // 随便一个初始化
         }
-        //使用硬件信息拼凑出来的15位号码
-        Conet.imei = MD5.getMD5(new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString());
-        return Conet.imei;
+        return MD5.getMD5(new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString());
     }
 
     /**
